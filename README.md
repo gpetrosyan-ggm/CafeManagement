@@ -1,1 +1,1 @@
-# CafeManagement
+# Simple Cafe Management web application
