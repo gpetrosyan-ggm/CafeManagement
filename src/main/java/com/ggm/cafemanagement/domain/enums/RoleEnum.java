@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 
 public enum RoleEnum {
 
-    WAITER("Waiter"),
-    MANAGER("Manager");
+    WAITER("ROLE_WAITER"),
+    MANAGER("ROLE_MANAGER");
 
     private final String value;
 
