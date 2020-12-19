@@ -36,7 +36,7 @@ public class Order {
     @JoinColumn(name = "table_id")
     private CafeTable table;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ProductInOrder> productInOrders;
 
 }

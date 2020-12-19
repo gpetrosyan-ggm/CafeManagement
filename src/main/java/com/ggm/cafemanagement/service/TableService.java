@@ -12,6 +12,8 @@ public interface TableService {
 
     List<CafeTableDto> findAllFree();
 
+    List<CafeTableDto> findAllByOrderStatus();
+
     void save(CafeTableDto cafeTableDto);
 
     void assign(Long tableId, Long userId);

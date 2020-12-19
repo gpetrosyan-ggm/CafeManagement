@@ -9,8 +9,6 @@ public interface TableRepository {
 
     List<CafeTable> findAll();
 
-    List<CafeTable> findAllFree();
-
     Optional<CafeTable> findById(Long id);
 
     void save(CafeTable cafeTable);

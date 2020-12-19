@@ -4,7 +4,9 @@ import com.ggm.cafemanagement.common.exception.AccessDeniedException;
 import com.ggm.cafemanagement.common.exception.NotFoundException;
 import com.ggm.cafemanagement.domain.dto.CafeTableDto;
 import com.ggm.cafemanagement.domain.entity.CafeTable;
+import com.ggm.cafemanagement.domain.entity.Order;
 import com.ggm.cafemanagement.domain.entity.User;
+import com.ggm.cafemanagement.domain.enums.OrderStatusEnum;
 import com.ggm.cafemanagement.domain.enums.RoleEnum;
 import com.ggm.cafemanagement.repository.TableRepository;
 import com.ggm.cafemanagement.repository.UserRepository;
@@ -14,9 +16,11 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Service
@@ -54,6 +58,21 @@ public class TableServiceImpl implements TableService {
         List<CafeTable> tables = tableRepository.findAll()
                 .stream()
                 .filter(cafeTable -> cafeTable.getWaiter() == null)
+                .collect(Collectors.toList());
+        return mapper.map(tables, new TypeToken<List<CafeTableDto>>() {
+        }.getType());
+    }
+
+    @Override
+    @Transactional
+    public List<CafeTableDto> findAllByOrderStatus() {
+        Predicate<CafeTable> isEmpty = cafeTable -> CollectionUtils.isEmpty(cafeTable.getOrders());
+        Predicate<CafeTable> isNotOpen = cafeTable -> !cafeTable.getOrders().stream().map(Order::getStatus).collect(Collectors.toList())
+                .contains(OrderStatusEnum.OPEN);
+
+        List<CafeTable> tables = tableRepository.findAll()
+                .stream()
+                .filter(isEmpty.or(isNotOpen))
                 .collect(Collectors.toList());
         return mapper.map(tables, new TypeToken<List<CafeTableDto>>() {
         }.getType());

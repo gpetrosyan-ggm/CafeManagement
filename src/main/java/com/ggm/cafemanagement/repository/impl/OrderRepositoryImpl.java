@@ -1,7 +1,8 @@
 package com.ggm.cafemanagement.repository.impl;
 
-import com.ggm.cafemanagement.domain.entity.CafeTable;
-import com.ggm.cafemanagement.repository.TableRepository;
+import com.ggm.cafemanagement.domain.entity.Order;
+import com.ggm.cafemanagement.domain.entity.User;
+import com.ggm.cafemanagement.repository.OrderRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -9,33 +10,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class TableRepositoryImpl implements TableRepository {
+public class OrderRepositoryImpl implements OrderRepository {
 
     @Autowired
     private SessionFactory sessionFactory;
 
     @Override
-    public List<CafeTable> findAll() {
+    public void save(Order order) {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("from CafeTable", CafeTable.class).list();
+        session.save(order);
     }
 
     @Override
-    public Optional<CafeTable> findById(Long id) {
+    public void update(Order order) {
         Session session = sessionFactory.getCurrentSession();
-        Query<CafeTable> query = session.createQuery("from CafeTable u where u.id = :id", CafeTable.class);
+        session.update(order);
+    }
+
+    @Override
+    public Optional<Order> findById(Long id) {
+        Session session = sessionFactory.getCurrentSession();
+        Query<Order> query = session.createQuery("from Order u where u.id = :id", Order.class);
         query.setParameter("id", id);
         return query.uniqueResultOptional();
-    }
-
-    @Override
-    public void save(CafeTable cafeTable) {
-        Session session = sessionFactory.getCurrentSession();
-        session.save(cafeTable);
     }
 
 }
