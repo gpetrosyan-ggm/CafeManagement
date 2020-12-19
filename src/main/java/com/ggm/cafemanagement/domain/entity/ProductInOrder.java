@@ -11,7 +11,8 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
-@Entity(name = "product_in_order")
+@Entity
+@Table(name = "product_in_order")
 public class ProductInOrder {
 
     @Id

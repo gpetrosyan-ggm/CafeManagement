@@ -2,28 +2,13 @@
 -- Create 'cafe_management' database.
 CREATE DATABASE  cafe_management;
 
--- Create 'role' enum
-CREATE TYPE role_enum AS ENUM('Waiter', 'Manager');
-
--- Create 'cafe_table_status' enum
-CREATE TYPE cafe_table_status AS ENUM('Basic', 'Standard', 'VIP');
-
--- Create 'order_status_enum' enum
-CREATE TYPE order_status_enum AS ENUM('Open', 'Cancelled', 'Closed');
-
--- Create 'product_category_enum' enum
-CREATE TYPE product_category_enum AS ENUM('COFFEE', 'TEA', 'BEAR', 'PASTRY', 'ICE_CREAM');
-
--- Create 'product_in_order_status_enum' enum
-CREATE TYPE product_in_order_status_enum AS ENUM('ACTIVE', 'CANCELLED');
-
 -- Create 'users' table
 CREATE TABLE users
 (
   id numeric(38) NOT NULL,
   user_name varchar(50) NOT NULL,
-  password varchar(30) NOT NULL,
-  role role_enum NOT NULL,
+  password varchar(100) NOT NULL,
+  role varchar(50) NOT NULL,
   first_name varchar(100) NOT NULL,
   last_name varchar(100) NOT NULL,
   age numeric(38) NOT NULL,
@@ -55,8 +40,10 @@ EXECUTE PROCEDURE users$users();
 CREATE TABLE cafe_tables
 (
   id numeric(38) NOT NULL,
-  status cafe_table_status NOT NULL,
+  table_name varchar(50) NOT NULL,
+  status varchar(50) NOT NULL,
   user_id numeric(38),
+  CONSTRAINT table_name_unq UNIQUE (table_name),
   CONSTRAINT cafe_tables_pk PRIMARY KEY (id),
   CONSTRAINT cafe_tables_users_fk FOREIGN KEY (user_id) REFERENCES users (id)
 );
@@ -78,7 +65,7 @@ $$;
 CREATE TABLE orders
 (
     id numeric(38) NOT NULL,
-    status order_status_enum NOT NULL,
+    status varchar(50) NOT NULL,
     comment varchar(4000) NOT NULL,
     user_id numeric(38),
     table_id numeric(38),
@@ -118,10 +105,9 @@ EXECUTE PROCEDURE orders$orders();
 CREATE TABLE products
 (
   id numeric(38) NOT NULL,
-  category product_category_enum NOT NULL ,
-  name varchar(255) NOT NULL,
+  category varchar(50) NOT NULL ,
+  product_name varchar(255) NOT NULL,
   description varchar(255),
-  expiration_date timestamp(6) NOT NULL ,
   price double precision,
   CONSTRAINT report_details_pk PRIMARY KEY (id)
 );
@@ -151,7 +137,7 @@ CREATE TABLE product_in_order
 (
   id numeric(38) NOT NULL,
   amount numeric(38) NOT NULL,
-  status product_in_order_status_enum NOT NULL ,
+  status varchar(50) NOT NULL ,
   comment varchar(2000) NOT NULL,
   order_id numeric(38),
   product_id numeric(38),

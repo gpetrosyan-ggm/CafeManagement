@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Users</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"
+            th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js}"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            th:src="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div class="container">
+    <h1>Product Registration</h1>
+    <form action="#" th:action="@{/product/create}" method="post" th:object="${newProduct}">
+        <div class="row">
+            <div class="col-sm-2">
+                <label>Product Name:</label>
+            </div>
+            <div class="col-sm-3">
+                <input type="text" th:field="*{productName}"/>
+            </div>
+            <div class="col-sm-6">
+                <label th:if="${#fields.hasErrors('productName')}" th:errors="*{productName}" style="color: red"></label>
+            </div>
+        </div>
+        <br/>
+
+        <div class="row">
+            <div class="col-sm-2">
+                <label>Description:</label>
+            </div>
+            <div class="col-sm-3">
+                <input type="text" th:field="*{description}"/>
+            </div>
+            <div class="col-sm-6">
+                <label th:if="${#fields.hasErrors('description')}" th:errors="*{description}" style="color: red"></label>
+            </div>
+        </div>
+        <br/>
+
+        <div class="row">
+            <div class="col-sm-2">
+                <label>Category:</label>
+            </div>
+            <div class="col-sm-3">
+                <select th:field="*{category}">
+                    <option th:each="c : ${productCategories}" th:value="${c.name()}" th:text="${c}"/>
+                </select>
+            </div>
+            <div class="col-sm-6">
+                <label th:if="${#fields.hasErrors('category')}" th:errors="*{category}" style="color: red"></label>
+            </div>
+        </div>
+        <br/>
+
+        <div class="row">
+            <div class="col-sm-2">
+                <label>Price:</label>
+            </div>
+            <div class="col-sm-3">
+                <input type="number" th:field="*{price}"/>
+            </div>
+            <div class="col-sm-6">
+                <label th:if="${#fields.hasErrors('price')}" th:errors="*{price}" style="color: red"></label>
+            </div>
+        </div>
+        <br/>
+
+        <button type="submit">Create</button>
+    </form>
+</div>
+
+</body>
+</html>

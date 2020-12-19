@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Users</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"
+            th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js}"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            th:src="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div class="container">
+    <h1>Table Assign</h1>
+    <form action="#" th:action="@{/table/assign}" method="post" th:object="${newAssignTable}">
+
+        <div class="row">
+            <div class="col-sm-2">
+                <label>Table:</label>
+            </div>
+            <div class="col-sm-3">
+                <select th:field="*{tableId}">
+                    <option th:each="t : ${tables}" th:value="${t.id}" th:text="${t.tableName}"/>
+                </select>
+            </div>
+            <div class="col-sm-6">
+                <label th:if="${#fields.hasErrors('tableId')}" th:errors="*{tableId}" style="color: red"></label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-2">
+                <label>Table:</label>
+            </div>
+            <div class="col-sm-3">
+                <select th:field="*{userId}">
+                    <option th:each="w : ${waiters}" th:value="${w.id}" th:text="${w.firstName + ' ' + w.lastName}"/>
+                </select>
+            </div>
+            <div class="col-sm-6">
+                <label th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}" style="color: red"></label>
+            </div>
+        </div>
+
+        <button type="submit">Assign</button>
+    </form>
+</div>
+
+</body>
+</html>

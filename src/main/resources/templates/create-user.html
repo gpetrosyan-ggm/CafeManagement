@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Users</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"
+            th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js}"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            th:src="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div class="container">
+    <h1>User Registration</h1>
+    <form action="#" th:action="@{/user/create}" method="post" th:object="${newUser}">
+        <div class="row">
+            <div class="col-sm-2">
+                <label>User Name:</label>
+            </div>
+            <div class="col-sm-3">
+                <input type="text" th:field="*{userName}"/>
+            </div>
+            <div class="col-sm-6">
+                <label th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}" style="color: red"></label>
+            </div>
+        </div>
+        <br/>
+
+        <div class="row">
+            <div class="col-sm-2">
+                <label>Password:</label>
+            </div>
+            <div class="col-sm-3">
+                <input type="password" th:field="*{password}"/>
+            </div>
+            <div class="col-sm-6">
+                <label th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color: red"></label>
+            </div>
+        </div>
+        <br/>
+
+        <div class="row">
+            <div class="col-sm-2">
+                <label>Role:</label>
+            </div>
+            <div class="col-sm-3">
+                <select th:field="*{role}">
+                    <option th:each="r : ${roles}" th:value="${r.name()}" th:text="${r}"/>
+                </select>
+            </div>
+            <div class="col-sm-6">
+                <label th:if="${#fields.hasErrors('role')}" th:errors="*{role}" style="color: red"></label>
+            </div>
+        </div>
+        <br/>
+
+        <div class="row">
+            <div class="col-sm-2">
+                <label>First Name:</label>
+            </div>
+            <div class="col-sm-3">
+                <input type="text" th:field="*{firstName}"/>
+            </div>
+            <div class="col-sm-6">
+                <label th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" style="color: red"></label>
+            </div>
+        </div>
+        <br/>
+
+        <div class="row">
+            <div class="col-sm-2">
+                <label>Last Name:</label>
+            </div>
+            <div class="col-sm-3">
+                <input type="text" th:field="*{lastName}"/><br/>
+            </div>
+            <div class="col-sm-6">
+                <label th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" style="color: red"></label>
+            </div>
+        </div>
+        <br/>
+
+        <div class="row">
+            <div class="col-sm-2">
+                <label>Age:</label>
+            </div>
+            <div class="col-sm-3">
+                <input type="number" th:field="*{age}"/><br/>
+            </div>
+            <div class="col-sm-6">
+                <label th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" style="color: red"></label>
+            </div>
+        </div>
+        <br/>
+
+        <button type="submit">Create</button>
+    </form>
+</div>
+
+</body>
+</html>

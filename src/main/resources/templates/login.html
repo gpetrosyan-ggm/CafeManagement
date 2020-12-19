@@ -6,21 +6,22 @@
 </head>
 <body>
 
-<div class="login-form">
-    <div th:if="${param.error}">
+<div class="login-form" align="center">
+    <div th:if="${param.error}" style="color: red">
         Invalid username and password.
-    </div>
-    <div th:if="${param.logout}">
-        You have been logged out.
     </div>
     <form th:action="@{/login}" method="post">
         <h2 class="text-center">Log in</h2>
         <div class="form-group">
-            <input type="text" class="form-control" placeholder="Username" name="username" required="required"/>
+            <input type="text" class="form-control" placeholder="Username" name="userName" required="required"/>
         </div>
+        <br/>
+
         <div class="form-group">
             <input type="password" class="form-control" placeholder="Password" name="password" required="required"/>
         </div>
+        <br/>
+
         <div class="form-group">
             <button type="submit" class="btn btn-primary btn-block">Log in</button>
         </div>

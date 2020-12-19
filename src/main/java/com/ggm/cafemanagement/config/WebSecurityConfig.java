@@ -1,6 +1,5 @@
 package com.ggm.cafemanagement.config;
 
-import com.ggm.cafemanagement.domain.enums.RoleEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -33,7 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf()
                 .disable()
                 .authorizeRequests()
-                .antMatchers("/home/**").hasAnyRole(RoleEnum.MANAGER.name())
+//                .antMatchers("/home/**").hasAnyRole(RoleEnum.MANAGER.name())
                 .and()
                 .formLogin()
                 .loginPage("/login").permitAll()

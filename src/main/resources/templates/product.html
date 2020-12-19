@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Products</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"
+            th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js}"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            th:src="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+</head>
+<body>
+
+<h3 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h3>
+<hr/>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Product Name</th>
+        <th scope="col">Description</th>
+        <th scope="col">Category</th>
+        <th scope="col">price</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="product : ${allProducts}">
+        <td><span th:text="${product.productName}"></span></td>
+        <td><span th:text="${product.description}"></span></td>
+        <td><span th:text="${product.category}"></span></td>
+        <td><span th:text="${product.price}"></span></td>
+    </tr>
+    </tbody>
+</table>
+
+<hr/>
+
+<div class="container" style="a">
+    <div class="row">
+        <div class="col-sm-11">
+        </div>
+        <div class="col-sm-1">
+            <form th:action="@{/logout}" method="post">
+                <button class="btn btn-primary btn-sm" type="submit">Sign Out</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

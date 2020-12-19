@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Users</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"
+            th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js}"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            th:src="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div class="container">
+    <h1>Table Registration</h1>
+    <form action="#" th:action="@{/table/create}" method="post" th:object="${newTable}">
+
+        <div class="row">
+            <div class="col-sm-2">
+                <label>Table Name:</label>
+            </div>
+            <div class="col-sm-3">
+                <input type="text" th:field="*{tableName}"/>
+            </div>
+            <div class="col-sm-6">
+                <label th:if="${#fields.hasErrors('tableName')}" th:errors="*{tableName}" style="color: red"></label>
+            </div>
+        </div>
+        <br/>
+
+        <div class="row">
+            <div class="col-sm-2">
+                <label>Status:</label>
+            </div>
+            <div class="col-sm-3">
+                <select th:field="*{status}">
+                    <option th:each="s : ${tableStatuses}" th:value="${s.name()}" th:text="${s}"/>
+                </select>
+            </div>
+            <div class="col-sm-6">
+                <label th:if="${#fields.hasErrors('status')}" th:errors="*{status}" style="color: red"></label>
+            </div>
+        </div>
+        <br/>
+
+        <button type="submit">Create</button>
+    </form>
+</div>
+
+</body>
+</html>
