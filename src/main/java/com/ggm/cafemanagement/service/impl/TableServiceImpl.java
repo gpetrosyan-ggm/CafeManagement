@@ -11,9 +11,11 @@ import com.ggm.cafemanagement.domain.enums.RoleEnum;
 import com.ggm.cafemanagement.repository.TableRepository;
 import com.ggm.cafemanagement.repository.UserRepository;
 import com.ggm.cafemanagement.service.TableService;
+import com.ggm.cafemanagement.util.SecurityHelper;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -66,12 +68,17 @@ public class TableServiceImpl implements TableService {
     @Override
     @Transactional
     public List<CafeTableDto> findAllByOrderStatus() {
+        String userName = SecurityHelper.retrieveUserName();
+        User user = userRepository.findByUserName(userName).orElseThrow(
+                () -> new UsernameNotFoundException(String.format("Could not found user by user name %s", userName)));
+
         Predicate<CafeTable> isEmpty = cafeTable -> CollectionUtils.isEmpty(cafeTable.getOrders());
         Predicate<CafeTable> isNotOpen = cafeTable -> !cafeTable.getOrders().stream().map(Order::getStatus).collect(Collectors.toList())
                 .contains(OrderStatusEnum.OPEN);
 
         List<CafeTable> tables = tableRepository.findAll()
                 .stream()
+                .filter(cafeTable -> Objects.nonNull(cafeTable.getWaiter()) && cafeTable.getWaiter().getId().equals(user.getId()))
                 .filter(isEmpty.or(isNotOpen))
                 .collect(Collectors.toList());
         return mapper.map(tables, new TypeToken<List<CafeTableDto>>() {

@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
 
 <head>
-    <title>Products</title>
+    <title>Products in Order</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css}"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"
@@ -20,15 +23,17 @@
     <div class="row">
 
         <div class="col-sm-2">
-            <form th:action="@{/table/}" method="get">
+            <form th:action="@{/table/} + ${userId}" method="get">
                 <button class="btn btn-secondary btn-sm" type="submit"><- Tables</button>
             </form>
         </div>
 
-        <div class="col-sm-2">
-            <form th:action="@{/product-in-order/form/} + ${orderId}" method="get">
-                <button class="btn btn-primary btn-sm" type="submit">Create Product in Order</button>
-            </form>
+        <div sec:authorize="hasRole('ROLE_WAITER')">
+            <div class="col-sm-2">
+                <form th:action="@{/product-in-order/form/} + ${orderId}" method="get">
+                    <button class="btn btn-primary btn-sm" type="submit">Create Product in Order</button>
+                </form>
+            </div>
         </div>
 
     </div>
@@ -45,7 +50,9 @@
         <th scope="col">Status</th>
         <th scope="col">Amount</th>
         <th scope="col">Comment</th>
-        <th scope="col">Action</th>
+        <div sec:authorize="hasRole('ROLE_WAITER')">
+            <th scope="col">Action</th>
+        </div>
     </tr>
     </thead>
     <tbody>
@@ -55,9 +62,11 @@
         <td><span th:text="${productInOrder.status}"></span></td>
         <td><span th:text="${productInOrder.amount}"></span></td>
         <td><span th:text="${productInOrder.comment}"></span></td>
-        <td>
-            <a th:href="@{/product-in-order/edit/form/} + ${productInOrder.id}">Edit</a>
-        </td>
+        <div sec:authorize="hasRole('ROLE_WAITER')">
+            <td>
+                <a th:href="@{/product-in-order/edit/form/} + ${productInOrder.id}">Edit</a>
+            </td>
+        </div>
     </tr>
     </tbody>
 </table>

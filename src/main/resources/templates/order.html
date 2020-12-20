@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
 
 <head>
-    <title>Products</title>
+    <title>Orders</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css}"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"
@@ -25,10 +28,12 @@
             </form>
         </div>
 
-        <div class="col-sm-2">
-            <form th:action="@{/order/form}" method="get">
-                <button class="btn btn-primary btn-sm" type="submit">Create Order</button>
-            </form>
+        <div sec:authorize="hasRole('ROLE_WAITER')">
+            <div class="col-sm-2">
+                <form th:action="@{/order/form}" method="get">
+                    <button class="btn btn-primary btn-sm" type="submit">Create Order</button>
+                </form>
+            </div>
         </div>
 
     </div>
@@ -50,7 +55,9 @@
         <td><span th:text="${order.status}"></span></td>
         <td><span th:text="${order.comment}"></span></td>
         <td>
-            <a th:href="@{/order/edit/form/} + ${order.id}">Edit</a> |
+            <div sec:authorize="hasRole('ROLE_WAITER')">
+                <a th:href="@{/order/edit/form/} + ${order.id}">Edit</a> |
+            </div>
             <a th:href="@{/product-in-order/} + ${order.id}">Product in Order -></a>
         </td>
     </tr>

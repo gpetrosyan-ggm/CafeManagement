@@ -81,4 +81,12 @@ public class ProductInOrderServiceImpl implements ProductInOrderService {
         productInOrderRepository.update(order);
     }
 
+    @Override
+    @Transactional
+    public Long findUserId(Long orderId) {
+        Order order = orderRepository.findById(orderId).orElseThrow(
+                () -> new NotFoundException("Order not found", String.format("Could not found order by id %s", orderId)));
+        return order.getWaiter().getId();
+    }
+
 }

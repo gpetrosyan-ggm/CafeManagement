@@ -14,4 +14,6 @@ public interface ProductInOrderService {
 
     void update(ProductInOrderDto productInOrderDto);
 
+    Long findUserId(Long orderId);
+
 }

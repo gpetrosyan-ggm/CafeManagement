@@ -43,6 +43,7 @@ public class ProductInOrderController {
 
     @GetMapping("/{orderId}")
     public String allByOrderId(@PathVariable Long orderId, Model model) {
+        model.addAttribute("userId", productInOrderService.findUserId(orderId));
         model.addAttribute("orderId", orderId);
         model.addAttribute("allProductInOrders", productInOrderService.findAllByOrderId(orderId));
         return "/product-in-order";

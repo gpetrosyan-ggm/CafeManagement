@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
 
 <head>
     <title>Users</title>
@@ -13,42 +16,43 @@
 </head>
 <body>
 
-
 <h3 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h3>
 <hr/>
 
-<div class="container" style="padding: 0; margin: 20px">
-    <div class="row">
+<div sec:authorize="hasRole('ROLE_MANAGER')">
+    <div class="container" style="padding: 0; margin: 20px">
+        <div class="row">
 
-        <div class="col-sm-2">
-            <form th:action="@{/user}" method="get">
-                <button class="btn btn-secondary btn-sm" type="submit"><- Users</button>
-            </form>
+            <div class="col-sm-2">
+                <form th:action="@{/user}" method="get">
+                    <button class="btn btn-secondary btn-sm" type="submit"><- Users</button>
+                </form>
+            </div>
+
+            <div class="col-sm-2">
+                <form th:action="@{/product}" method="get">
+                    <button class="btn btn-secondary btn-sm" type="submit">Products -></button>
+                </form>
+            </div>
+
+            <div class="col-sm-2">
+                <form th:action="@{/table/form}" method="get">
+                    <button class="btn btn-primary btn-sm" type="submit">Create Table</button>
+                </form>
+            </div>
+
+            <div class="col-sm-2">
+                <form th:action="@{/table/assign/form}" method="get">
+                    <button class="btn btn-primary btn-sm" type="submit">Assign Table</button>
+                </form>
+            </div>
+
         </div>
-
-        <div class="col-sm-2">
-            <form th:action="@{/product}" method="get">
-                <button class="btn btn-secondary btn-sm" type="submit">Products -></button>
-            </form>
-        </div>
-
-        <div class="col-sm-2">
-            <form th:action="@{/table/form}" method="get">
-                <button class="btn btn-primary btn-sm" type="submit">Create Table</button>
-            </form>
-        </div>
-
-        <div class="col-sm-2">
-            <form th:action="@{/table/assign/form}" method="get">
-                <button class="btn btn-primary btn-sm" type="submit">Assign Table</button>
-            </form>
-        </div>
-
     </div>
-</div>
 
-<hr/>
-<br/>
+    <hr/>
+    <br/>
+</div>
 
 <table class="table">
     <thead>
@@ -59,7 +63,16 @@
     </thead>
     <tbody>
     <tr th:each="table : ${allTables}">
-        <td><a th:href="@{/order/} + ${table.id} + @{/} + ${table.waiter.id}"><span th:text="${table.tableName}"></span></a></td>
+        <td>
+            <span th:if="${table.waiter != null}">
+                <a th:href="@{/order/} + ${table.id} + @{/} + ${table.waiter.id}">
+                    <span th:text="${table.tableName}"></span>
+                </a>
+            </span>
+            <span th:unless="${table.waiter != null}">
+                <span th:text="${table.tableName}"></span>
+            </span>
+        </td>
         <td><span th:text="${table.status}"></span></td>
     </tr>
     </tbody>

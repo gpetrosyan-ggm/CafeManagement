@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -58,7 +59,6 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public void create(OrderDto orderDto) {
-
         CafeTable cafeTable = tableRepository.findById(orderDto.getTableId()).orElseThrow(
                 () -> new NotFoundException("Table not found", String.format("Could not found table by id %s", orderDto.getTableId())));
         if (cafeTable.getOrders().stream().map(Order::getStatus).collect(Collectors.toList()).contains(OrderStatusEnum.OPEN)) {
@@ -69,9 +69,9 @@ public class OrderServiceImpl implements OrderService {
         String userName = SecurityHelper.retrieveUserName();
         User user = userRepository.findByUserName(userName).orElseThrow(
                 () -> new UsernameNotFoundException(String.format("Could not found user by user name %s", userName)));
-        if (RoleEnum.WAITER != user.getRole()) {
-            throw new AccessDeniedException("Access denied to assign table",
-                    String.format("Access denied to assign order to '%s' user. User is not waiter role", user.getId()));
+        if (RoleEnum.WAITER != user.getRole() || Objects.isNull(cafeTable.getWaiter()) || !cafeTable.getWaiter().getId().equals(user.getId())) {
+            throw new AccessDeniedException("Access denied to create order",
+                    String.format("Access denied to assign order to '%s' user", user.getId()));
         }
 
         Order order = mapper.map(orderDto, Order.class);
@@ -87,14 +87,23 @@ public class OrderServiceImpl implements OrderService {
         Order orderDb = orderRepository.findById(orderDto.getId()).orElseThrow(
                 () -> new NotFoundException("Order not found", String.format("Could not found order by id %s", orderDto.getId())));
 
+        String userName = SecurityHelper.retrieveUserName();
+        User user = userRepository.findByUserName(userName).orElseThrow(
+                () -> new UsernameNotFoundException(String.format("Could not found user by user name %s", userName)));
+        if (RoleEnum.WAITER != user.getRole() || Objects.isNull(orderDb.getWaiter()) || !orderDb.getWaiter().getId().equals(user.getId())) {
+            throw new AccessDeniedException("Access denied to update order",
+                    String.format("Access denied to update order to '%s' user", user.getId()));
+        }
+
         boolean hasOpen = orderRepository.findAll()
                 .stream().anyMatch(order -> order.getTable().getId().equals(orderDb.getTable().getId()) && OrderStatusEnum.OPEN == order.getStatus());
 
         if (OrderStatusEnum.OPEN == orderDto.getStatus() && hasOpen) {
             throw new AccessDeniedException("Access denied to edit order",
                     String.format("Access denied to edit order '%s'. Table already has open order.", orderDto.getId()));
-
         }
+
+
         Order order = mapper.map(orderDto, Order.class);
         orderRepository.update(order);
     }
