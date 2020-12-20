@@ -16,7 +16,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(CafeManagementException.class)
     public ModelAndView handleCafeManagementException(CafeManagementException ex) {
-        log.error("Exception has been thrown: {}", ex.getLogMsg(), ex);
+        log.error("Exception has been thrown: {}", ex.getLogMsg());
         ModelAndView model = new ModelAndView("error");
         model.addObject("exceptionMessage", ex.getMessage());
         return model;
@@ -24,7 +24,6 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ModelAndView handleGeneralException(Exception ex) {
-        log.error("Exception has been thrown: {}", ex.getMessage(), ex);
         ModelAndView model = new ModelAndView("error");
         model.addObject("exceptionMessage", "Internal server error.");
         return model;
