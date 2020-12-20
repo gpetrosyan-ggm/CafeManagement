@@ -57,7 +57,7 @@ public class TableController {
             return "/create-table";
         }
         tableService.save(cafeTableDto);
-        return "redirect:/home";
+        return "redirect:/table";
     }
 
     @PostMapping("/assign")

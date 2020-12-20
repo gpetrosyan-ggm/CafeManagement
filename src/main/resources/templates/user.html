@@ -20,6 +20,18 @@
     <div class="row">
 
         <div class="col-sm-2">
+            <form th:action="@{/table}" method="get">
+                <button class="btn btn-secondary btn-sm" type="submit">Tables -></button>
+            </form>
+        </div>
+
+        <div class="col-sm-2">
+            <form th:action="@{/product}" method="get">
+                <button class="btn btn-secondary btn-sm" type="submit">Products -></button>
+            </form>
+        </div>
+
+        <div class="col-sm-2">
             <form th:action="@{/user/form}" method="get">
                 <button class="btn btn-primary btn-sm" type="submit">Create User</button>
             </form>
@@ -60,7 +72,14 @@
     </thead>
     <tbody>
     <tr th:each="user : ${allUsers}">
-        <td><span th:text="${user.firstName}"></span></td>
+        <td>
+            <span th:if="${user.role.name() == 'WAITER'}">
+                <a th:href="@{/table/} + ${user.id}"><span th:text="${user.firstName}"></span></a>
+            </span>
+            <span th:unless="${user.role.name() == 'WAITER'}">
+               <span th:text="${user.firstName}"></span>
+            </span>
+        </td>
         <td><span th:text="${user.lastName}"></span></td>
         <td><span th:text="${user.role}"></span></td>
         <td><span th:text="${user.age}"></span></td>

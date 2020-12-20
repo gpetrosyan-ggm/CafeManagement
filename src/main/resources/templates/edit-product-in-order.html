@@ -17,6 +17,7 @@
     <form action="#" th:action="@{/product-in-order/edit}" method="post" th:object="${productInOrder}">
 
         <input type="hidden" th:field="*{id}"/>
+        <input type="hidden" th:field="*{orderId}"/>
 
         <div class="row">
             <div class="col-sm-2">

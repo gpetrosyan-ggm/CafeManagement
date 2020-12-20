@@ -16,6 +16,27 @@
 <h3 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h3>
 <hr/>
 
+<div class="container" style="padding: 0; margin: 20px">
+    <div class="row">
+
+        <div class="col-sm-2">
+            <form th:action="@{/table/}" method="get">
+                <button class="btn btn-secondary btn-sm" type="submit"><- Tables</button>
+            </form>
+        </div>
+
+        <div class="col-sm-2">
+            <form th:action="@{/product-in-order/form/} + ${orderId}" method="get">
+                <button class="btn btn-primary btn-sm" type="submit">Create Product in Order</button>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<hr/>
+<br/>
+
 <table class="table">
     <thead>
     <tr>
@@ -24,6 +45,7 @@
         <th scope="col">Status</th>
         <th scope="col">Amount</th>
         <th scope="col">Comment</th>
+        <th scope="col">Action</th>
     </tr>
     </thead>
     <tbody>
@@ -33,6 +55,9 @@
         <td><span th:text="${productInOrder.status}"></span></td>
         <td><span th:text="${productInOrder.amount}"></span></td>
         <td><span th:text="${productInOrder.comment}"></span></td>
+        <td>
+            <a th:href="@{/product-in-order/edit/form/} + ${productInOrder.id}">Edit</a>
+        </td>
     </tr>
     </tbody>
 </table>

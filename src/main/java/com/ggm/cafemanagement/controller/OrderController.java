@@ -37,8 +37,9 @@ public class OrderController {
     }
 
 
-    @GetMapping("/{tableId}")
-    public String allOrdersByTableId(@PathVariable Long tableId, Model model) {
+    @GetMapping("/{tableId}/{userId}")
+    public String allOrdersByTableId(@PathVariable Long tableId, @PathVariable Long userId, Model model) {
+        model.addAttribute("userId", userId);
         model.addAttribute("allOrders", orderService.findAllByTableId(tableId));
         return "/order";
     }

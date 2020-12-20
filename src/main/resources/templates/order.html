@@ -16,17 +16,43 @@
 <h3 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h3>
 <hr/>
 
+<div class="container" style="padding: 0; margin: 20px">
+    <div class="row">
+
+        <div class="col-sm-2">
+            <form th:action="@{/table/} + ${userId}" method="get">
+                <button class="btn btn-secondary btn-sm" type="submit"><- Tables</button>
+            </form>
+        </div>
+
+        <div class="col-sm-2">
+            <form th:action="@{/order/form}" method="get">
+                <button class="btn btn-primary btn-sm" type="submit">Create Order</button>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<hr/>
+<br/>
+
 <table class="table">
     <thead>
     <tr>
         <th scope="col">Status</th>
         <th scope="col">Comment</th>
+        <th scope="col">Action</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="order : ${allOrders}">
         <td><span th:text="${order.status}"></span></td>
         <td><span th:text="${order.comment}"></span></td>
+        <td>
+            <a th:href="@{/order/edit/form/} + ${order.id}">Edit</a> |
+            <a th:href="@{/product-in-order/} + ${order.id}">Product in Order -></a>
+        </td>
     </tr>
     </tbody>
 </table>

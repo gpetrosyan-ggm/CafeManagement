@@ -49,7 +49,9 @@ public class ProductInOrderServiceImpl implements ProductInOrderService {
     public ProductInOrderDto findById(Long id) {
         ProductInOrder productInOrder = productInOrderRepository.findById(id).orElseThrow(
                 () -> new NotFoundException("Product in order not found", String.format("Could not found product in order by id %s", id)));
-        return mapper.map(productInOrder, ProductInOrderDto.class);
+        ProductInOrderDto productInOrderDto = mapper.map(productInOrder, ProductInOrderDto.class);
+        productInOrderDto.setOrderId(productInOrder.getOrder().getId());
+        return productInOrderDto;
     }
 
     @Override

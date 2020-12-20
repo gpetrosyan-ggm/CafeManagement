@@ -3,11 +3,15 @@ package com.ggm.cafemanagement.controller;
 import com.ggm.cafemanagement.domain.dto.UserDto;
 import com.ggm.cafemanagement.domain.enums.RoleEnum;
 import com.ggm.cafemanagement.service.UserService;
+import com.ggm.cafemanagement.util.SecurityHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
 
@@ -27,6 +31,7 @@ public class UserController {
 
     @GetMapping
     public String allUsers(Model model) {
+        SecurityHelper.retrieveUserName();
         model.addAttribute("allUsers", userService.findAll());
         return "/user";
     }

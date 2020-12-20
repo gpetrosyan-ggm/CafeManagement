@@ -1,14 +1,15 @@
 package com.ggm.cafemanagement.repository.impl;
 
 import com.ggm.cafemanagement.domain.entity.Order;
-import com.ggm.cafemanagement.domain.entity.ProductInOrder;
 import com.ggm.cafemanagement.repository.OrderRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -39,6 +40,13 @@ public class OrderRepositoryImpl implements OrderRepository {
         Query<Order> query = session.createQuery("from Order u where u.id = :id", Order.class);
         query.setParameter("id", id);
         return query.uniqueResultOptional();
+    }
+
+    @Override
+    public List<Order> findAll() {
+        Session session = sessionFactory.getCurrentSession();
+        Query<Order> query = session.createQuery("from Order ", Order.class);
+        return query.list();
     }
 
 }

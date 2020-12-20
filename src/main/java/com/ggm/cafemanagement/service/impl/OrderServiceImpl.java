@@ -84,6 +84,17 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public void update(OrderDto orderDto) {
+        Order orderDb = orderRepository.findById(orderDto.getId()).orElseThrow(
+                () -> new NotFoundException("Order not found", String.format("Could not found order by id %s", orderDto.getId())));
+
+        boolean hasOpen = orderRepository.findAll()
+                .stream().anyMatch(order -> order.getTable().getId().equals(orderDb.getTable().getId()) && OrderStatusEnum.OPEN == order.getStatus());
+
+        if (OrderStatusEnum.OPEN == orderDto.getStatus() && hasOpen) {
+            throw new AccessDeniedException("Access denied to edit order",
+                    String.format("Access denied to edit order '%s'. Table already has open order.", orderDto.getId()));
+
+        }
         Order order = mapper.map(orderDto, Order.class);
         orderRepository.update(order);
     }

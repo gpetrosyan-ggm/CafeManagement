@@ -2,7 +2,6 @@ package com.ggm.cafemanagement.controller;
 
 import com.ggm.cafemanagement.domain.dto.ProductInOrderDto;
 import com.ggm.cafemanagement.domain.enums.ProductInOrderStatusEnum;
-import com.ggm.cafemanagement.service.OrderService;
 import com.ggm.cafemanagement.service.ProductInOrderService;
 import com.ggm.cafemanagement.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +15,6 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping(value = "/product-in-order")
 public class ProductInOrderController {
-
-    @Autowired
-    private OrderService orderService;
 
     @Autowired
     private ProductService productService;
@@ -37,7 +33,9 @@ public class ProductInOrderController {
 
     @GetMapping("/edit/form/{productInOrderId}")
     public String editForm(@PathVariable Long productInOrderId, Model model) {
-        model.addAttribute("productInOrder", productInOrderService.findById(productInOrderId));
+        ProductInOrderDto productInOrderDto = productInOrderService.findById(productInOrderId);
+        model.addAttribute("productInOrder", productInOrderDto);
+        model.addAttribute("orderId", productInOrderDto.getOrderId());
         model.addAttribute("productInOrderStatuses", ProductInOrderStatusEnum.values());
         return "/edit-product-in-order";
     }
@@ -45,8 +43,9 @@ public class ProductInOrderController {
 
     @GetMapping("/{orderId}")
     public String allByOrderId(@PathVariable Long orderId, Model model) {
+        model.addAttribute("orderId", orderId);
         model.addAttribute("allProductInOrders", productInOrderService.findAllByOrderId(orderId));
-        return "/producti-in-order";
+        return "/product-in-order";
     }
 
     @PostMapping("/create")
@@ -55,18 +54,20 @@ public class ProductInOrderController {
             model.addAttribute("products", productService.findAll());
             return "/create-product-in-order";
         }
+        model.addAttribute("orderId", productInOrderDto.getOrderId());
         productInOrderService.create(productInOrderDto);
-        return "redirect:/home";
+        return "redirect:/product-in-order/" + productInOrderDto.getOrderId();
     }
 
     @PostMapping("/edit")
-    public String editProductInOrder(@ModelAttribute("productInOrder") @Valid ProductInOrderDto orderDto, BindingResult result, Model model) {
+    public String editProductInOrder(@ModelAttribute("productInOrder") @Valid ProductInOrderDto productInOrderDto, BindingResult result, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("productInOrderStatuses", ProductInOrderStatusEnum.values());
             return "/edit-product-in-order";
         }
-        productInOrderService.update(orderDto);
-        return "redirect:/home";
+        model.addAttribute("orderId", productInOrderDto.getOrderId());
+        productInOrderService.update(productInOrderDto);
+        return "redirect:/product-in-order/" + productInOrderDto.getOrderId();
     }
 
 }

@@ -12,6 +12,31 @@
             th:src="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
 </head>
 <body>
+
+<h3 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h3>
+<hr/>
+
+<div class="container" style="padding: 0; margin: 20px">
+    <div class="row">
+
+        <div class="col-sm-2">
+            <form th:action="@{/user}" method="get">
+                <button class="btn btn-secondary btn-sm" type="submit"><- Users</button>
+            </form>
+        </div>
+
+        <div class="col-sm-2">
+            <form th:action="@{/table}" method="get">
+                <button class="btn btn-secondary btn-sm" type="submit"><- Tables</button>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<hr/>
+<br/>
+
 <div class="container">
     <h1>Table Assign</h1>
     <form action="#" th:action="@{/table/assign}" method="post" th:object="${newAssignTable}">

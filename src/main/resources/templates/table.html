@@ -17,6 +17,39 @@
 <h3 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h3>
 <hr/>
 
+<div class="container" style="padding: 0; margin: 20px">
+    <div class="row">
+
+        <div class="col-sm-2">
+            <form th:action="@{/user}" method="get">
+                <button class="btn btn-secondary btn-sm" type="submit"><- Users</button>
+            </form>
+        </div>
+
+        <div class="col-sm-2">
+            <form th:action="@{/product}" method="get">
+                <button class="btn btn-secondary btn-sm" type="submit">Products -></button>
+            </form>
+        </div>
+
+        <div class="col-sm-2">
+            <form th:action="@{/table/form}" method="get">
+                <button class="btn btn-primary btn-sm" type="submit">Create Table</button>
+            </form>
+        </div>
+
+        <div class="col-sm-2">
+            <form th:action="@{/table/assign/form}" method="get">
+                <button class="btn btn-primary btn-sm" type="submit">Assign Table</button>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<hr/>
+<br/>
+
 <table class="table">
     <thead>
     <tr>
@@ -26,7 +59,7 @@
     </thead>
     <tbody>
     <tr th:each="table : ${allTables}">
-        <td><span th:text="${table.tableName}"></span></td>
+        <td><a th:href="@{/order/} + ${table.id} + @{/} + ${table.waiter.id}"><span th:text="${table.tableName}"></span></a></td>
         <td><span th:text="${table.status}"></span></td>
     </tr>
     </tbody>
@@ -34,7 +67,7 @@
 
 <hr/>
 
-<div class="container" style="a">
+<div class="container">
     <div class="row">
         <div class="col-sm-11">
         </div>
