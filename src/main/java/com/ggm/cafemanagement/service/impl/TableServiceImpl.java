@@ -25,6 +25,9 @@ import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+/**
+ * Service class to store/get cafe table data.
+ */
 @Service
 public class TableServiceImpl implements TableService {
 
@@ -37,6 +40,11 @@ public class TableServiceImpl implements TableService {
     @Autowired
     private ModelMapper mapper;
 
+    /**
+     * Fetching all cafe tables data from DB.
+     *
+     * @return list of {@link CafeTableDto}.
+     */
     @Override
     @Transactional
     public List<CafeTableDto> findAll() {
@@ -45,6 +53,12 @@ public class TableServiceImpl implements TableService {
         }.getType());
     }
 
+    /**
+     * Fetching cage tables data by user id.
+     *
+     * @param userId the user id.
+     * @return list of {@link CafeTableDto}.
+     */
     @Override
     @Transactional
     public List<CafeTableDto> findAllByUserId(Long userId) {
@@ -54,6 +68,14 @@ public class TableServiceImpl implements TableService {
         }.getType());
     }
 
+    // TODO needs to investigate and find a way to get necessary data from the direct repository
+    //  and remove manually filtering.
+
+    /**
+     * Finding tables which does assigned to waiter yet.
+     *
+     * @return list of {@link CafeTableDto}.
+     */
     @Override
     @Transactional
     public List<CafeTableDto> findAllFree() {
@@ -65,6 +87,13 @@ public class TableServiceImpl implements TableService {
         }.getType());
     }
 
+    // TODO some part of checking can be done by repository level. Needs to investigate Hibernate.
+
+    /**
+     * Finding tables which dont have open orders.
+     *
+     * @return list {@link CafeTableDto} objects.
+     */
     @Override
     @Transactional
     public List<CafeTableDto> findAllByOrderStatus() {
@@ -85,6 +114,11 @@ public class TableServiceImpl implements TableService {
         }.getType());
     }
 
+    /**
+     * Saving {@link CafeTable} data into the DB.
+     *
+     * @param cafeTableDto cafe table data going to be stored.
+     */
     @Override
     @Transactional
     public void save(CafeTableDto cafeTableDto) {
@@ -92,6 +126,14 @@ public class TableServiceImpl implements TableService {
         tableRepository.save(cafeTable);
     }
 
+    /**
+     * Assign table to waiter.
+     * Tabled should be fre (does not have waiter already.) otherwise throw {@link AccessDeniedException} exception.
+     * User should be waiter otherwise throw {@link AccessDeniedException} exception.
+     *
+     * @param tableId the table id which is going to be assigned to waiter.
+     * @param userId  the user id which is assigning to the table.
+     */
     @Override
     @Transactional
     public void assign(Long tableId, Long userId) {

@@ -20,6 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * Service class to store/get/update {@link ProductInOrder} object.
+ */
 @Service
 public class ProductInOrderServiceImpl implements ProductInOrderService {
 
@@ -35,6 +38,12 @@ public class ProductInOrderServiceImpl implements ProductInOrderService {
     @Autowired
     private ModelMapper mapper;
 
+    /**
+     * Finding Products in Order by order id.
+     *
+     * @param orderId the order id.
+     * @return list of {@link ProductInOrderDto} objects.
+     */
     @Override
     @Transactional
     public List<ProductInOrderDto> findAllByOrderId(Long orderId) {
@@ -44,6 +53,12 @@ public class ProductInOrderServiceImpl implements ProductInOrderService {
         }.getType());
     }
 
+    /**
+     * Finding {@link ProductInOrderDto} by id.
+     *
+     * @param id the product in order id.
+     * @return {@link ProductInOrderDto} object.
+     */
     @Override
     @Transactional
     public ProductInOrderDto findById(Long id) {
@@ -54,6 +69,12 @@ public class ProductInOrderServiceImpl implements ProductInOrderService {
         return productInOrderDto;
     }
 
+    /**
+     * Stores {@link ProductInOrderDto} object into the DB.
+     * If Order status is not OPEN throw {@link AccessDeniedException} exception.
+     *
+     * @param productInOrderDto the object going to be stored.
+     */
     @Override
     @Transactional
     public void create(ProductInOrderDto productInOrderDto) {
@@ -74,6 +95,11 @@ public class ProductInOrderServiceImpl implements ProductInOrderService {
         productInOrderRepository.save(productInOrder);
     }
 
+    /**
+     * Updating {@link ProductInOrderDto} object data.
+     *
+     * @param productInOrderDto the object going to be update.
+     */
     @Override
     @Transactional
     public void update(ProductInOrderDto productInOrderDto) {
@@ -81,6 +107,12 @@ public class ProductInOrderServiceImpl implements ProductInOrderService {
         productInOrderRepository.update(order);
     }
 
+    /**
+     * Finding order waiter id by order id.
+     *
+     * @param orderId the order id.
+     * @return order's waiter id.
+     */
     @Override
     @Transactional
     public Long findUserId(Long orderId) {

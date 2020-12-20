@@ -12,6 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * Service class to store/get products data.
+ */
 @Service
 public class ProductServiceImpl implements ProductService {
 
@@ -21,6 +24,11 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ModelMapper mapper;
 
+    /**
+     * Fetching all products data from the DB.
+     *
+     * @return list of {@link ProductDto} objects.
+     */
     @Override
     @Transactional
     public List<ProductDto> findAll() {
@@ -29,6 +37,11 @@ public class ProductServiceImpl implements ProductService {
         }.getType());
     }
 
+    /**
+     * Store {@link ProductDto} data into the DB.
+     *
+     * @param productDto {@link ProductDto} data going to be stored into DB.
+     */
     @Override
     @Transactional
     public void save(ProductDto productDto) {

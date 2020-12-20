@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+/**
+ * Custom exception handler. Handling exceptions and sending some message to view.
+ */
 @Log4j2
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice

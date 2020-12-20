@@ -15,6 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * Save class to save/get user data.
+ */
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -27,6 +30,11 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private ModelMapper mapper;
 
+    /**
+     * Finding all users.
+     *
+     * @return list of {@link UserDto} fetched from DB.
+     */
     @Override
     @Transactional
     public List<UserDto> findAll() {
@@ -35,6 +43,11 @@ public class UserServiceImpl implements UserService {
         }.getType());
     }
 
+    /**
+     * Finding all users with 'WAITER' role.
+     *
+     * @return list of {@link UserDto} fetched from DB.
+     */
     @Override
     @Transactional
     public List<UserDto> findAllWaiters() {
@@ -43,6 +56,11 @@ public class UserServiceImpl implements UserService {
         }.getType());
     }
 
+    /**
+     * Saving user data into the DB.
+     *
+     * @param userDto new {@link UserDto} going to be saved.
+     */
     @Override
     @Transactional
     public void save(UserDto userDto) {
@@ -51,6 +69,11 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
+    /**
+     * Find logins user data.
+     *
+     * @return {@link UserDto} logins user.
+     */
     @Override
     @Transactional
     public UserDto findAuthUser() {

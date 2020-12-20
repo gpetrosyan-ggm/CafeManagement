@@ -24,6 +24,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * Service class to store/get/update {@link Order} object.
+ */
 @Service
 public class OrderServiceImpl implements OrderService {
 
@@ -39,6 +42,12 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private ModelMapper mapper;
 
+    /**
+     * Finding table's orders by table id.
+     *
+     * @param tableId the table id.
+     * @return list od {@link OrderDto} objects.
+     */
     @Override
     @Transactional
     public List<OrderDto> findAllByTableId(Long tableId) {
@@ -48,6 +57,12 @@ public class OrderServiceImpl implements OrderService {
         }.getType());
     }
 
+    /**
+     * Find order by id.
+     *
+     * @param orderId the order id.
+     * @return {@link OrderDto} object.
+     */
     @Override
     @Transactional
     public OrderDto findById(Long orderId) {
@@ -56,6 +71,15 @@ public class OrderServiceImpl implements OrderService {
         return mapper.map(order, OrderDto.class);
     }
 
+    // TODO some part of checking can be done by repository level. Needs to investigate Hibernate.
+
+    /**
+     * Create table's order.
+     * If table has already opened order throw {@link AccessDeniedException} exception.
+     * If user is not waiter or table has another waiter throw {@link AccessDeniedException} exception.
+     *
+     * @param orderDto {@link OrderDto} object going to be stored.
+     */
     @Override
     @Transactional
     public void create(OrderDto orderDto) {
@@ -81,6 +105,13 @@ public class OrderServiceImpl implements OrderService {
         orderRepository.save(order);
     }
 
+    /**
+     * Update table's order.
+     * If user is not waiter or table has another waiter throw {@link AccessDeniedException} exception.
+     * If updated order status is OPEN and table has already OPEN order throw {@link AccessDeniedException} exception.
+     *
+     * @param orderDto {@link OrderDto} object going to be updated.
+     */
     @Override
     @Transactional
     public void update(OrderDto orderDto) {
