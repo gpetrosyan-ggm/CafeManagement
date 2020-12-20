@@ -2,8 +2,6 @@ package com.ggm.cafemanagement.common.exception.handler;
 
 import com.ggm.cafemanagement.common.exception.CafeManagementException;
 import lombok.extern.log4j.Log4j2;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -15,11 +13,10 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
-    private static final Logger logger = LoggerFactory.getLogger(CustomExceptionHandler.class);
 
     @ExceptionHandler(CafeManagementException.class)
     public ModelAndView handleCafeManagementException(CafeManagementException ex) {
-        logger.error("Exception has been thrown: {}", ex.getLogMsg(), ex);
+        log.error("Exception has been thrown: {}", ex.getLogMsg(), ex);
         ModelAndView model = new ModelAndView("error");
         model.addObject("exceptionMessage", ex.getMessage());
         return model;
@@ -27,7 +24,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ModelAndView handleGeneralException(Exception ex) {
-        logger.error("Exception has been thrown: {}", ex.getMessage(), ex);
+        log.error("Exception has been thrown: {}", ex.getMessage(), ex);
         ModelAndView model = new ModelAndView("error");
         model.addObject("exceptionMessage", "Internal server error.");
         return model;

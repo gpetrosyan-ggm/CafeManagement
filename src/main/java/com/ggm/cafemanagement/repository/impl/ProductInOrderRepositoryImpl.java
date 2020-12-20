@@ -1,6 +1,5 @@
 package com.ggm.cafemanagement.repository.impl;
 
-import com.ggm.cafemanagement.domain.entity.Order;
 import com.ggm.cafemanagement.domain.entity.ProductInOrder;
 import com.ggm.cafemanagement.repository.ProductInOrderRepository;
 import org.hibernate.Session;
