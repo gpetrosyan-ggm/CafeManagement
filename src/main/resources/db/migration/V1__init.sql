@@ -1,7 +1,4 @@
 
--- Create 'cafe_management' database.
-CREATE DATABASE  cafe_management;
-
 -- Create 'users' table
 CREATE TABLE users
 (
