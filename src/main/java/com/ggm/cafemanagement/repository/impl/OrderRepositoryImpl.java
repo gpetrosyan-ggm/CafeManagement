@@ -1,14 +1,13 @@
 package com.ggm.cafemanagement.repository.impl;
 
 import com.ggm.cafemanagement.domain.entity.Order;
-import com.ggm.cafemanagement.domain.entity.User;
+import com.ggm.cafemanagement.domain.entity.ProductInOrder;
 import com.ggm.cafemanagement.repository.OrderRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -27,7 +26,11 @@ public class OrderRepositoryImpl implements OrderRepository {
     @Override
     public void update(Order order) {
         Session session = sessionFactory.getCurrentSession();
-        session.update(order);
+        Query query = session.createQuery("update Order o set o.status=:status, o.comment=:comment where o.id = :id");
+        query.setParameter("status", order.getStatus());
+        query.setParameter("comment", order.getComment());
+        query.setParameter("id", order.getId());
+        query.executeUpdate();
     }
 
     @Override

@@ -13,8 +13,8 @@
 </head>
 <body>
 <div class="container">
-    <h1>Order Edit</h1>
-    <form action="#" th:action="@{/order/edit}" method="post" th:object="${order}">
+    <h1>Product in Order Edit</h1>
+    <form action="#" th:action="@{/product-in-order/edit}" method="post" th:object="${productInOrder}">
 
         <input type="hidden" th:field="*{id}"/>
 
@@ -24,13 +24,26 @@
             </div>
             <div class="col-sm-3">
                 <select th:field="*{status}">
-                    <option th:each="s : ${orderStatuses}" th:value="${s.name()}" th:text="${s}"/>
+                    <option th:each="s : ${productInOrderStatuses}" th:value="${s.name()}" th:text="${s}"/>
                 </select>
             </div>
             <div class="col-sm-6">
                 <label th:if="${#fields.hasErrors('status')}" th:errors="*{status}" style="color: red"></label>
             </div>
         </div>
+
+        <div class="row">
+            <div class="col-sm-2">
+                <label>Amount:</label>
+            </div>
+            <div class="col-sm-3">
+                <input type="number" th:field="*{amount}"/>
+            </div>
+            <div class="col-sm-6">
+                <label th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}" style="color: red"></label>
+            </div>
+        </div>
+        <br/>
 
         <div class="row">
             <div class="col-sm-2">

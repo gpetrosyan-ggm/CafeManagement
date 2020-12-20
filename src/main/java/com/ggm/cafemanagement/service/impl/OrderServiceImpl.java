@@ -58,8 +58,6 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public void create(OrderDto orderDto) {
-        Order order = mapper.map(orderDto, Order.class);
-        order.setStatus(OrderStatusEnum.OPEN);
 
         CafeTable cafeTable = tableRepository.findById(orderDto.getTableId()).orElseThrow(
                 () -> new NotFoundException("Table not found", String.format("Could not found table by id %s", orderDto.getTableId())));
@@ -76,6 +74,8 @@ public class OrderServiceImpl implements OrderService {
                     String.format("Access denied to assign order to '%s' user. User is not waiter role", user.getId()));
         }
 
+        Order order = mapper.map(orderDto, Order.class);
+        order.setStatus(OrderStatusEnum.OPEN);
         order.setTable(cafeTable);
         order.setWaiter(user);
         orderRepository.save(order);

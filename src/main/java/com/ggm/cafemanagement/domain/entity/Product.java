@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import java.math.BigDecimal;
 
@@ -33,9 +32,5 @@ public class Product {
 
     @Column(name = "price")
     private BigDecimal price;
-
-    @Valid
-    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
-    private ProductInOrder productInOrder;
 
 }

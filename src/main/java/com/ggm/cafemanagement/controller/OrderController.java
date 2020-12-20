@@ -56,7 +56,6 @@ public class OrderController {
     @PostMapping("/edit")
     public String editOrder(@ModelAttribute("order") @Valid OrderDto orderDto, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            model.addAttribute("order", orderService.findById(orderDto.getId()));
             model.addAttribute("orderStatuses", OrderStatusEnum.values());
             return "/edit-order";
         }

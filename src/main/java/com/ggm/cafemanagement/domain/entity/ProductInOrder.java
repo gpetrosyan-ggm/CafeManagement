@@ -5,9 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.Valid;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
@@ -20,8 +17,6 @@ public class ProductInOrder {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @NotNull(message = "Amount is required")
-    @Min(value = 1, message = "Amount should min be 1.")
     @Column(name = "amount")
     private Integer amount;
 
@@ -32,12 +27,10 @@ public class ProductInOrder {
     @Column(name = "comment")
     private String comment;
 
-    @Valid
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
 
-    @Valid
     @OneToOne
     @JoinColumn(name = "product_id")
     private Product product;

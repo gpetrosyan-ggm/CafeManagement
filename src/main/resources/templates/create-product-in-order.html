@@ -13,24 +13,37 @@
 </head>
 <body>
 <div class="container">
-    <h1>Order Edit</h1>
-    <form action="#" th:action="@{/order/edit}" method="post" th:object="${order}">
+    <h1>Product in Order Create</h1>
+    <form action="#" th:action="@{/product-in-order/create}" method="post" th:object="${newProductInOrder}">
 
-        <input type="hidden" th:field="*{id}"/>
+        <input type="hidden" th:field="*{orderId}"/>
 
         <div class="row">
             <div class="col-sm-2">
-                <label>Status:</label>
+                <label>Product:</label>
             </div>
             <div class="col-sm-3">
-                <select th:field="*{status}">
-                    <option th:each="s : ${orderStatuses}" th:value="${s.name()}" th:text="${s}"/>
+                <select th:field="*{productId}">
+                    <option th:each="p : ${products}" th:value="${p.id}" th:text="${p.productName}"/>
                 </select>
             </div>
             <div class="col-sm-6">
-                <label th:if="${#fields.hasErrors('status')}" th:errors="*{status}" style="color: red"></label>
+                <label th:if="${#fields.hasErrors('productId')}" th:errors="*{productId}" style="color: red"></label>
             </div>
         </div>
+
+        <div class="row">
+            <div class="col-sm-2">
+                <label>Amount:</label>
+            </div>
+            <div class="col-sm-3">
+                <input type="number" th:field="*{amount}"/>
+            </div>
+            <div class="col-sm-6">
+                <label th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}" style="color: red"></label>
+            </div>
+        </div>
+        <br/>
 
         <div class="row">
             <div class="col-sm-2">
@@ -45,7 +58,7 @@
         </div>
         <br/>
 
-        <button type="submit">Update</button>
+        <button type="submit">Create</button>
     </form>
 </div>
 
